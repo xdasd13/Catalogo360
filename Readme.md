@@ -64,3 +64,9 @@ Los parámetros de conexión se cargan desde `env.js`, que usa `mysql2/promise` 
 - `DELETE /api/products/:id`: eliminación.
 
 Usa un cliente como Postman o curl para interactuar con la API.
+
+## Diagrama de ER
+
+![Diagrama de ER](docs/er_diagram.png)
+
+ 
