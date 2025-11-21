@@ -1,0 +1,14 @@
+{
+  "name": "catalogo",
+  "version": "1.0.0",
+  "description": "API de catálogo construida con Express y MySQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3"
+  }
+}
