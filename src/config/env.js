@@ -23,6 +23,7 @@ const appConfig = {
   env: process.env.NODE_ENV || 'development',
   port: toNumber(process.env.PORT, 3000),
   apiPrefix: process.env.API_PREFIX || '/api',
+  currencyApiKey: process.env.CURRENCY_API_KEY || '',
 };
 
 const dbConfig = {
