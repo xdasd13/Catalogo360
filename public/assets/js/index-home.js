@@ -149,6 +149,11 @@ function catalogApp() {
     exchangeRates: { PEN: 1 },
     currencyMenuOpen: false,
 
+    logout() {
+      // Redirigir al endpoint de logout que limpiará la cookie y redirigirá al catálogo
+      window.location.href = "/auth/logout";
+    },
+
     init() {
       // Registrar plugins de GSAP
       if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
