@@ -87,13 +87,13 @@ npm install
 1. Crea una base de datos MySQL:
 
 ```sql
-CREATE DATABASE catalogo_db;
+CREATE DATABASE catalogo;
 ```
 
 2. Importa el esquema de la base de datos:
 
 ```bash
-mysql -u root -p catalogo_db < database/schema.sql
+mysql -u root -p catalogo < database/schema.sql
 ```
 
 ### Paso 4: Configurar variables de entorno
@@ -273,9 +273,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 **Tu Nombre**
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/tu-perfil)
-- Email: tu-email@ejemplo.com
+- GitHub: [@tu-usuario](https://github.com/xdasd13)
+- LinkedIn: [Tu Perfil](https://www.linkedin.com/in/fabianyataco/)
+- Email: fabianyataco9@gmail.com
 
 ---
 
