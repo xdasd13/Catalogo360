@@ -273,8 +273,8 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 **Tu Nombre**
 
-- **GitHub:** https://github.com/xdasd13
-- **LinkedIn:** https://www.linkedin.com/in/fabianyataco/
+[![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/xdasd13)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fabianyataco/)
 - **Email:** fabianyataco9@gmail.com
 ---
 
