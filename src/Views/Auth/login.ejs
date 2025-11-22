@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catálogo inteligente | Iniciar Sesión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/img/favicon.ico" />
+    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+    <link rel="stylesheet" href="/assets/css/index-home.css" />
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
+</head>
+
+<body class="font-sans bg-app-gray text-app-dark min-h-screen flex flex-col">
+    <header class="nav-header">
+        <div class="max-w-6xl mx-auto px-6 py-5">
+            <div class="nav-top">
+                <a href="/" class="nav-logo" aria-label="Ir al inicio">
+                    <img src="/img/favicon.ico" alt="Catalogo360" class="nav-logo-icon" />
+                    <span class="nav-logo-text">Catalogo360</span>
+                </a>
+                <div class="nav-actions">
+                    <a href="/registro" class="btn btn-ghost">
+                        Crear cuenta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center px-6 py-12">
+        <div class="w-full max-w-md bg-white rounded-[30px] shadow-lg border border-[rgba(28,80,82,0.15)] p-8 md:p-10">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-semibold text-app-deep mb-2">Bienvenido</h1>
+                <p class="text-app-muted">Ingresa tus credenciales para continuar</p>
+            </div>
+
+            <form action="/auth/login" method="POST" class="space-y-5">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-app-deep mb-1.5">Correo electrónico</label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-app-green focus:ring-1 focus:ring-app-green outline-none transition-colors bg-gray-50/50"
+                        placeholder="ejemplo@correo.com" />
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="password" class="block text-sm font-medium text-app-deep">Contraseña</label>
+                        <a href="/recuperar-password"
+                            class="text-xs font-medium text-app-green hover:text-app-green-dark">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+                    <input type="password" id="password" name="password" required
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-app-green focus:ring-1 focus:ring-app-green outline-none transition-colors bg-gray-50/50"
+                        placeholder="••••••••" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full justify-center mt-2">
+                    Iniciar Sesión
+                </button>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-sm text-app-muted">
+                    ¿No tienes una cuenta?
+                    <a href="/registro"
+                        class="font-semibold text-app-green hover:text-app-green-dark transition-colors">
+                        Regístrate aquí
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-app-deep text-white py-6 text-center text-sm opacity-90">
+        <p>© <span id="year"></span> Catálogo inteligente. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
