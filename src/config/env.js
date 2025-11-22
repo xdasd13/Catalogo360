@@ -1,37 +1,39 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 const result = dotenv.config();
 
-if (result.error && process.env.NODE_ENV !== 'production') {
+if (result.error && process.env.NODE_ENV !== "production") {
   // eslint-disable-next-line no-console
-  console.warn('No .env file found, relying on process environment variables');
+  console.warn("No .env file found, relying on process environment variables");
 }
 
 const toNumber = (value, defaultValue) => {
-  if (value === undefined || value === null || value === '') return defaultValue;
+  if (value === undefined || value === null || value === "")
+    return defaultValue;
   const parsed = Number(value);
   return Number.isNaN(parsed) ? defaultValue : parsed;
 };
 
 const toBoolean = (value, defaultValue) => {
   if (value === undefined) return defaultValue;
-  if (typeof value === 'boolean') return value;
-  return ['true', '1', 'yes', 'y'].includes(String(value).toLowerCase());
+  if (typeof value === "boolean") return value;
+  return ["true", "1", "yes", "y"].includes(String(value).toLowerCase());
 };
 
 const appConfig = {
-  env: process.env.NODE_ENV || 'development',
+  env: process.env.NODE_ENV || "development",
   port: toNumber(process.env.PORT, 3000),
-  apiPrefix: process.env.API_PREFIX || '/api',
-  currencyApiKey: process.env.CURRENCY_API_KEY || '',
+  apiPrefix: process.env.API_PREFIX || "/api",
+  currencyApiKey: process.env.CURRENCY_API_KEY || "",
+  jwtSecret: process.env.JWT_SECRET || "secreto_super_seguro_por_defecto",
 };
 
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || "localhost",
   port: toNumber(process.env.DB_PORT, 3306),
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'catalogo',
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "catalogo",
   waitForConnections: toBoolean(process.env.DB_WAIT_FOR_CONNECTIONS, true),
   connectionLimit: toNumber(process.env.DB_CONNECTION_LIMIT, 10),
   queueLimit: toNumber(process.env.DB_QUEUE_LIMIT, 0),
