@@ -73,9 +73,59 @@
               <a href="/carrito" class="nav-cart" aria-label="Ver carrito">
                 <iconify-icon icon="streamline:shopping-cart-basket-1-shopping-basket" width="20" height="20"></iconify-icon>
               </a>
-              <a href="/login" class="btn btn-ghost" aria-label="Iniciar sesión">
-                Iniciar sesión
-              </a>
+              <% if (typeof user !== 'undefined' && user) { %>
+                <div class="relative" x-data="{ userMenuOpen: false }">
+                  <button 
+                    @click="userMenuOpen = !userMenuOpen"
+                    @click.outside="userMenuOpen = false"
+                    class="flex items-center gap-2 pl-2 focus:outline-none group hover:opacity-80 transition-opacity"
+                  >
+                    <img src="/img/user-defaul.png" alt="Perfil" class="w-6 h-6 rounded-full object-cover border-2 border-gray-200 group-hover:border-app-green transition-colors">
+                    <span class="text-sm font-medium text-app-deep hidden sm:inline-block group-hover:text-app-green transition-colors">
+                      <%= user.nombre %>. <%= user.apellido ? user.apellido.charAt(0) : '' %>
+                    </span>
+                    <iconify-icon icon="solar:alt-arrow-down-bold" class="text-app-muted group-hover:text-app-green transition-colors hidden sm:inline-block" width="14"></iconify-icon>
+                  </button>
+
+                  <div 
+                    x-show="userMenuOpen" 
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2"
+                    x-cloak
+                    class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50"
+                    style="display: none;"
+                  >
+                    <div class="px-4 py-3 border-b border-gray-100">
+                      <p class="text-xs text-app-muted mb-1">Conectado como</p>
+                      <p class="text-sm font-semibold text-app-deep truncate"><%= user.email %></p>
+                    </div>
+                    <a href="/perfil" class="flex items-center gap-3 px-4 py-3 text-sm text-app-deep hover:bg-gray-50 transition-colors">
+                      <iconify-icon icon="solar:user-circle-bold" class="text-app-muted" width="18"></iconify-icon>
+                      <span>Mi perfil</span>
+                    </a>
+                    <a href="/configuracion" class="flex items-center gap-3 px-4 py-3 text-sm text-app-deep hover:bg-gray-50 transition-colors">
+                      <iconify-icon icon="solar:settings-bold" class="text-app-muted" width="18"></iconify-icon>
+                      <span>Configuración</span>
+                    </a>
+                    <div class="border-t border-gray-100 my-1"></div>
+                    <button 
+                      @click="logout()" 
+                      class="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition-colors text-left"
+                    >
+                      <iconify-icon icon="solar:logout-2-bold" width="18"></iconify-icon>
+                      <span>Cerrar sesión</span>
+                    </button>
+                  </div>
+                </div>
+              <% } else { %>
+                <a href="/login" class="btn btn-ghost" aria-label="Iniciar sesión">
+                  Iniciar sesión
+                </a>
+              <% } %>
             </div>
           </div>
           <div class="nav-divider"></div>
@@ -355,7 +405,29 @@
         </div>
       </footer>
     </div>
-
+      <script src="/assets/js/toast.js"></script>
+  
+  <script>
+    // Mostrar toast basado en parámetros de URL
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.get('loggedIn') === 'true') {
+        setTimeout(() => showToast('¡Bienvenido! Has iniciado sesión correctamente', 'success'), 100);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      
+      if (urlParams.get('registered') === 'true') {
+        setTimeout(() => showToast('¡Registro exitoso! Bienvenido a Catalogo360', 'success'), 100);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      
+      if (urlParams.get('loggedOut') === 'true') {
+        setTimeout(() => showToast('Has cerrado sesión correctamente', 'info'), 100);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+  </script>
     <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
