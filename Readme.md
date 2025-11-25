@@ -49,13 +49,17 @@
 - ✅ Integración con **Currency API**
 - ✅ Tasas de cambio offline como fallback
 
-### 🎪 **Características Adicionales**
+### 🎪 Características Adicionales
 
 - ✅ Carrusel de productos destacados con **Swiper**
 - ✅ Formateo de precios con **Dinero.js**
 - ✅ Iconos vectoriales con **Iconify**
 - ✅ Interactividad con **Alpine.js**
 - ✅ Arquitectura MVC limpia y escalable
+- ✅ **Panel de administración profesional** con TailwindCSS
+- ✅ Gestión modular con Services, Controllers y Validators
+- ✅ Flash messages y notificaciones automáticas
+- ✅ Validación de formularios en servidor y cliente
 
 ---
 
@@ -87,7 +91,7 @@ npm install
 1. Crea una base de datos MySQL:
 
 ```sql
-CREATE DATABASE catalogo_db;
+CREATE DATABASE catalogo;
 ```
 
 2. Importa el esquema de la base de datos:
@@ -154,17 +158,32 @@ catalogo/
 ├── public/                 # Archivos estáticos
 │   ├── assets/
 │   │   ├── css/           # Estilos compilados
+│   │   │   ├── tailwind.css       # Estilos del frontend
+│   │   │   └── admin.css          # Estilos del admin panel
 │   │   ├── js/            # Scripts del cliente
+│   │   │   ├── admin.js           # Funciones globales del admin
+│   │   │   ├── admin-forms.js     # Helpers para formularios
+│   │   │   └── *.js               # Scripts específicos
 │   │   └── img/           # Imágenes
 ├── src/
+│   ├── admin/             # Panel de administración
+│   │   ├── controllers/   # Controladores del admin
+│   │   ├── middlewares/   # Middlewares (validadores, auth)
+│   │   ├── services/      # Servicios de lógica de negocio
+│   │   ├── utils/         # Utilidades (slug generator)
+│   │   └── routes/        # Rutas del admin
 │   ├── config/            # Configuración de la app
-│   ├── controllers/       # Controladores (lógica de negocio)
+│   ├── controllers/       # Controladores públicos
 │   ├── middlewares/       # Middlewares personalizados
-│   ├── models/            # Modelos de datos
 │   ├── repositories/      # Capa de acceso a datos
-│   ├── routes/            # Definición de rutas
+│   ├── routes/            # Definición de rutas públicas
 │   ├── validators/        # Validadores de entrada
 │   ├── Views/             # Vistas EJS
+│   │   ├── layouts/       # Layouts (main, admin)
+│   │   ├── admin/         # Vistas del panel admin
+│   │   ├── Home/          # Vistas del frontend
+│   │   ├── Auth/          # Vistas de autenticación
+│   │   └── ...
 │   ├── app.js             # Configuración de Express
 │   └── server.js          # Punto de entrada
 ├── .env                   # Variables de entorno
@@ -184,6 +203,9 @@ catalogo/
 - **[JWT](https://jwt.io/)** - Autenticación basada en tokens
 - **[bcryptjs](https://www.npmjs.com/package/bcryptjs)** - Hash de contraseñas
 - **[express-validator](https://express-validator.github.io/)** - Validación de datos
+- **[Sharp](https://sharp.pixelplumbing.com/)** - Procesamiento de imágenes
+- **[Multer](https://www.npmjs.com/package/multer)** - Manejo de uploads
+- **[connect-flash](https://www.npmjs.com/package/connect-flash)** - Flash messages
 
 ### Frontend
 
@@ -245,16 +267,72 @@ El proyecto utiliza un sistema de diseño coherente con:
 
 ---
 
+## 🎛️ Panel de Administración
+
+El panel administrativo permite gestionar completamente el catálogo:
+
+### Características del Admin
+
+- ✅ **Dashboard** con estadísticas en tiempo real
+  - Total de productos, categorías, marcas y usuarios
+  - Stock disponible y reservado
+  - Productos sin stock
+  - Acciones rápidas
+
+- ✅ **Gestión de Productos**
+  - CRUD completo (Crear, Leer, Actualizar, Eliminar)
+  - Asignación de categorías múltiples
+  - Asignación de etiquetas
+  - Gestión de marcas
+  - Precios base y ofertas
+  - Estados (activo/destacado)
+
+- ✅ **Gestión de Categorías**
+  - Categorías jerárquicas (padre-hijo)
+  - CRUD completo
+  - Descripción de categorías
+
+- ✅ **Gestión de Marcas**
+  - CRUD completo
+  - Descripción de marcas
+
+- ✅ **Gestión de Etiquetas**
+  - CRUD con color personalizado
+  - Selector de color en tiempo real
+  - Preview de etiquetas
+
+### Acceso al Admin
+
+```
+URL: http://localhost:3000/admin
+Email: admin@catalogo360.com
+Password: Admin@2024
+```
+
+### Arquitectura Admin
+
+- **Services**: Capas de lógica de negocio (`/src/admin/services/`)
+- **Controllers**: Manejadores de solicitudes (`/src/admin/controllers/`)
+- **Middlewares**: Validadores y autenticación (`/src/admin/middlewares/`)
+- **Views**: Vistas EJS con TailwindCSS (`/src/Views/admin/`)
+- **Estilos**: CSS personalizado (`/public/assets/css/admin.css`)
+- **Scripts**: JavaScript para interactividad (`/public/assets/js/admin-*.js`)
+
+---
+
 ## 📝 Roadmap
 
+- [x] Crear panel de administración completo
+- [x] Gestión de productos, categorías y marcas
 - [ ] Implementar carrito de compras funcional
 - [ ] Agregar sistema de favoritos
-- [ ] Crear panel de administración
 - [ ] Integrar pasarela de pagos
 - [ ] Añadir sistema de reviews y valoraciones
 - [ ] Implementar notificaciones en tiempo real
 - [ ] Crear API REST pública
 - [ ] Agregar soporte para múltiples idiomas
+- [ ] Sistema de upload de imágenes con compresión
+- [ ] Módulo de usuarios y permisos
 
 ---
 ## 📚 Previamente
@@ -273,9 +351,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 **Tu Nombre**
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/tu-perfil)
-- Email: tu-email@ejemplo.com
+[![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/xdasd13)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fabianyataco/)
+- **Email:** fabianyataco9@gmail.com
 
 ---
 
