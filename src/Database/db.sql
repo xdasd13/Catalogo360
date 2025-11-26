@@ -24,6 +24,8 @@ CREATE TABLE usuarios (
     INDEX idx_email (email)
 );
 
+ALTER TABLE usuarios ADD foto_perfil VARCHAR(255) DEFAULT ('public/img/user-defaul.png');
+
 CREATE TABLE usuario_roles (
     usuario_id INT,
     rol_id INT,

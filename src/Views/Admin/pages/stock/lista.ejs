@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock - Panel de Administración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+    <div class="flex h-screen">
+        <%- include('../../Layouts/sidebar') %>
+            <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+                <%- include('../../Layouts/navbar') %>
+                    <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+                        <div class="bg-white rounded-xl shadow-card border border-gray-100 overflow-hidden">
+                            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                                <div>
+                                    <h2 class="text-lg font-bold text-app-deep">Gestión de Stock</h2>
+                                    <p class="text-sm text-gray-500">Controla el inventario de productos</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 border-b border-gray-100 bg-gray-50">
+                                <div class="relative">
+                                    <i
+                                        class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
+                                    <input type="text" placeholder="Buscar producto..."
+                                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-app-green focus:ring-1 focus:ring-app-green">
+                                </div>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="w-full text-left custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-6 py-4">Producto</th>
+                                            <th class="px-6 py-4">Variante</th>
+                                            <th class="px-6 py-4 text-center">Disponible</th>
+                                            <th class="px-6 py-4 text-center">Reservado</th>
+                                            <th class="px-6 py-4 text-center">Última actualización</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        <% if (typeof stock !=='undefined' && stock.length> 0) { %>
+                                            <% stock.forEach(item=> { %>
+                                                <tr class="hover:bg-gray-50 transition-colors">
+                                                    <td class="px-6 py-4 font-medium text-app-deep">
+                                                        <%= item.producto %>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                                        <%= item.variante %>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center"><span
+                                                            class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                                                            <%= item.cantidad %>
+                                                        </span></td>
+                                                    <td class="px-6 py-4 text-center"><span
+                                                            class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+                                                            <%= item.reservado || 0 %>
+                                                        </span></td>
+                                                    <td class="px-6 py-4 text-center text-sm text-gray-500">
+                                                        <%= item.updated_at || 'Hoy' %>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <tr class="hover:bg-gray-50 transition-colors">
+                                                            <td class="px-6 py-4 font-medium text-app-deep">Lámpara
+                                                                Origami</td>
+                                                            <td class="px-6 py-4 text-sm text-gray-500">Blanca</td>
+                                                            <td class="px-6 py-4 text-center"><span
+                                                                    class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">50</span>
+                                                            </td>
+                                                            <td class="px-6 py-4 text-center"><span
+                                                                    class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">5</span>
+                                                            </td>
+                                                            <td class="px-6 py-4 text-center text-sm text-gray-500">Hoy
+                                                                10:30</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </main>
+            </div>
+    </div>
+    <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

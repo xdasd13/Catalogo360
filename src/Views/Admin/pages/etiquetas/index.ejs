@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etiquetas - Panel de Administración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+  <div class="flex h-screen">
+    <%- include('../../Layouts/sidebar') %>
+      <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+        <%- include('../../Layouts/navbar') %>
+          <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+            <div class="bg-white rounded-xl shadow-card border border-gray-100 overflow-hidden">
+              <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                  <h2 class="text-lg font-bold text-app-deep">Etiquetas</h2>
+                  <p class="text-sm text-gray-500">Administra las etiquetas para clasificar productos</p>
+                </div>
+                <button type="button" onclick="document.getElementById('newTagForm').classList.toggle('hidden');"
+                  class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                  <i class='bx bx-plus'></i> Nueva Etiqueta
+                </button>
+              </div>
+
+              <!-- Form para crear nueva etiqueta -->
+              <div id="newTagForm" class="hidden bg-gray-50 p-6 border-b border-gray-100">
+                <h3 class="text-lg font-medium text-app-deep mb-4">Crear Nueva Etiqueta</h3>
+                <form method="POST" action="/admin/etiquetas">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                      <input type="text" name="nombre"
+                        class="w-full rounded-lg border-gray-300 focus:border-app-green focus:ring-app-green shadow-sm"
+                        required placeholder="ej: Oferta">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                      <div class="flex items-center gap-2">
+                        <input type="color" name="color" class="h-10 w-20 rounded border border-gray-300 cursor-pointer"
+                          value="#348e91" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                    <textarea name="descripcion"
+                      class="w-full rounded-lg border-gray-300 focus:border-app-green focus:ring-app-green shadow-sm"
+                      rows="2" placeholder="Descripción de la etiqueta..."></textarea>
+                  </div>
+                  <div class="flex gap-3">
+                    <button type="submit"
+                      class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Crear
+                      Etiqueta</button>
+                    <button type="button" onclick="document.getElementById('newTagForm').classList.add('hidden');"
+                      class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+
+              <% if (etiquetas && etiquetas.length> 0) { %>
+                <div class="table-container">
+                  <table class="w-full text-left custom-table">
+                    <thead>
+                      <tr>
+                        <th class="px-6 py-4">Nombre</th>
+                        <th class="px-6 py-4">Color</th>
+                        <th class="px-6 py-4">Descripción</th>
+                        <th class="px-6 py-4">Productos</th>
+                        <th class="px-6 py-4 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                      <% etiquetas.forEach(etiqueta=> { %>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                          <td class="px-6 py-4 font-medium text-app-deep">
+                            <%= etiqueta.nombre %>
+                          </td>
+                          <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                              <div class="w-6 h-6 rounded border border-gray-200"
+                                style="background-color: <%= etiqueta.color %>;"></div>
+                              <code class="text-xs text-gray-500"><%= etiqueta.color %></code>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= etiqueta.descripcion || '-' %>
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= etiqueta.producto_count || 0 %>
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                              <button
+                                onclick="editTag(<%= etiqueta.id %>, '<%= etiqueta.nombre %>', '<%= etiqueta.color %>', '<%= etiqueta.descripcion || '' %>')"
+                                class="text-gray-400 hover:text-app-green transition-colors">
+                                <i class='bx bx-edit-alt text-lg'></i>
+                              </button>
+                              <form method="POST" action="/admin/etiquetas/<%= etiqueta.id %>?_method=DELETE"
+                                onsubmit="return confirm('¿Estás seguro?');" class="inline">
+                                <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
+                                  <i class='bx bx-trash text-lg'></i>
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+                <% } else { %>
+                  <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-4xl">🔖
+                    </div>
+                    <h3 class="text-lg font-medium text-app-deep mb-1">No hay etiquetas aún</h3>
+                    <p class="text-gray-500 mb-6">Comienza creando tu primera etiqueta.</p>
+                    <button type="button" onclick="document.getElementById('newTagForm').classList.remove('hidden');"
+                      class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Crear Etiqueta
+                    </button>
+                  </div>
+                  <% } %>
+            </div>
+          </main>
+      </div>
+  </div>
+  <script src="/assets/js/dashboard.js"></script>
+  <script>
+    function editTag(id, nombre, color, descripcion) {
+      // Simple prompt-based editing for now, could be improved with a modal
+      const newNombre = prompt('Nuevo nombre:', nombre);
+      if (newNombre === null) return;
+
+      const newColor = confirm('¿Cambiar color?') ? prompt('Nuevo color (hex):', color) : color;
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = `/admin/etiquetas/${id}?_method=PUT`;
+      form.innerHTML = `
+      <input type="hidden" name="nombre" value="${newNombre}">
+      <input type="hidden" name="color" value="${newColor || color}">
+      <input type="hidden" name="descripcion" value="${descripcion}">
+    `;
+      document.body.appendChild(form);
+      form.submit();
+    }
+  </script>
+</body>
+
+</html>

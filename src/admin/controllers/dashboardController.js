@@ -1,11 +1,11 @@
-const pool = require('../../config/database');
+const pool = require("../../config/database");
 
 const dashboardController = {
   async index(req, res) {
     try {
       // Total de productos
       const [productsCount] = await pool.query(
-        'SELECT COUNT(*) as total FROM productos WHERE activo = true'
+        "SELECT COUNT(*) as total FROM productos WHERE activo = true"
       );
 
       // Stock total
@@ -24,22 +24,22 @@ const dashboardController = {
 
       // Productos destacados
       const [featured] = await pool.query(
-        'SELECT COUNT(*) as total FROM productos WHERE destacado = true AND activo = true'
+        "SELECT COUNT(*) as total FROM productos WHERE destacado = true AND activo = true"
       );
 
       // Categorías
       const [categoriesCount] = await pool.query(
-        'SELECT COUNT(*) as total FROM categorias WHERE activo = true'
+        "SELECT COUNT(*) as total FROM categorias WHERE activo = true"
       );
 
       // Usuarios activos
       const [activeUsers] = await pool.query(
-        'SELECT COUNT(*) as total FROM usuarios WHERE activo = true'
+        "SELECT COUNT(*) as total FROM usuarios WHERE activo = true"
       );
 
       // Marcas
       const [marcasCount] = await pool.query(
-        'SELECT COUNT(*) as total FROM marcas'
+        "SELECT COUNT(*) as total FROM marcas"
       );
 
       const stats = {
@@ -50,22 +50,21 @@ const dashboardController = {
         featured: featured[0].total,
         totalCategories: categoriesCount[0].total,
         totalUsers: activeUsers[0].total,
-        totalBrands: marcasCount[0].total
+        totalBrands: marcasCount[0].total,
       };
 
-      res.render('admin/dashboard', {
-        layout: 'layouts/admin',
-        title: 'Dashboard',
-        currentPage: 'dashboard',
+      res.render("Admin/dashboard", {
+        title: "Dashboard",
+        currentPage: "dashboard",
         user: req.user,
-        stats
+        stats,
       });
     } catch (error) {
-      console.error('Error en dashboard:', error);
-      req.flash('error', 'Error al cargar el dashboard');
-      res.redirect('/admin');
+      console.error("Error en dashboard:", error);
+      req.flash("error", "Error al cargar el dashboard");
+      res.redirect("/admin");
     }
-  }
+  },
 };
 
 module.exports = dashboardController;

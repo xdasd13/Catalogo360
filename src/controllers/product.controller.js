@@ -1,4 +1,15 @@
 const productService = require('../services/product.service');
+const catalogProducts = require('../data/catalog-products');
+
+const buildRelatedProducts = (product) => {
+  if (!product) return [];
+  const matches = catalogProducts.filter(
+    (item) =>
+      item.id !== product.id &&
+      (item.categoria === product.categoria || item.etiqueta === product.etiqueta)
+  );
+  return matches.slice(0, 4);
+};
 
 const productController = {
   async getAll(_req, res) {
@@ -20,6 +31,16 @@ const productController = {
   async remove(req, res) {
     await productService.remove(req.params.id);
     res.status(204).send();
+  },
+  detalle(req, res) {
+    const productId = Number(req.params.id);
+    const product = catalogProducts.find((item) => item.id === productId) || null;
+    const relacionados = buildRelatedProducts(product);
+
+    res.render('Home/detalle', {
+      product,
+      relacionados,
+    });
   },
 };
 

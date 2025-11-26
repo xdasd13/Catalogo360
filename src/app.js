@@ -11,6 +11,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const path = require("path");
 const app = express();
+const iaRoutes = require("./admin/routes/ia.routes");
 
 app.set("trust proxy", true);
 app.use(express.json());
@@ -18,16 +19,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Flash Messages
-app.use(session({
-  secret: appConfig.jwtSecret,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: appConfig.env === 'production', maxAge: 24 * 60 * 60 * 1000 }
-}));
+app.use(
+  session({
+    secret: appConfig.jwtSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: appConfig.env === "production",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
 app.use(flash());
 
 // Flash messages middleware
-const flashMiddleware = require('./middlewares/flash.middleware');
+const flashMiddleware = require("./middlewares/flash.middleware");
 app.use(flashMiddleware);
 
 app.set("views", path.join(__dirname, "Views"));
@@ -88,6 +94,7 @@ app.use("/", productosRoutes);
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 app.use(appConfig.apiPrefix, apiRoutes);
+app.use("/api/ia", iaRoutes); // IA routes con Mistral
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= product ? product.titulo + ' | Catalogo360' : 'Producto no encontrado' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="/img/favicon.ico" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2Lw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
+  <link rel="stylesheet" href="/assets/css/index-home.css" />
+  <link rel="stylesheet" href="/assets/css/detalle.css" />
+</head>
+
+<body class="bg-app-gray text-app-dark font-sans">
+  <header class="detail-header">
+    <div class="detail-header__container">
+      <a href="/" class="nav-logo" aria-label="Ir al inicio">
+        <img src="/img/favicon.ico" alt="Catalogo360" class="nav-logo-icon" />
+        <span class="nav-logo-text">Catalogo360</span>
+      </a>
+      <nav class="detail-nav">
+        <a href="/" class="detail-nav__link">Inicio</a>
+        <a href="/productos" class="detail-nav__link">Productos</a>
+        <a href="/colecciones" class="detail-nav__link">Colecciones</a>
+      </nav>
+      <a href="/checkout" class="detail-nav__cta">Ir al checkout</a>
+    </div>
+  </header>
+
+  <main class="detail-main">
+    <% if (!product) { %>
+    <section class="detail-empty">
+      <div class="detail-empty__card">
+        <p class="detail-empty__eyebrow">Ups...</p>
+        <h1>Producto no disponible</h1>
+        <p>El producto que buscas ya no existe o fue movido. Regresa al catálogo para seguir explorando.</p>
+        <a href="/" class="detail-nav__cta detail-nav__cta--ghost">Volver al catálogo</a>
+      </div>
+    </section>
+    <% } else { %>
+    <section class="detail-hero">
+      <div class="detail-hero__image">
+        <img src="<%= product.imagen %>" alt="<%= product.titulo %>" loading="lazy" />
+      </div>
+      <div class="detail-hero__info" data-product-detail data-id="<%= product.id %>"
+        data-titulo="<%= product.titulo %>" data-precio="<%= product.precio %>"
+        data-estrellas="<%= product.estrellas %>" data-categoria="<%= product.categoria %>"
+        data-etiqueta="<%= product.etiqueta %>" data-imagen="<%= product.imagen %>">
+        <p class="detail-hero__eyebrow">Colección <%= product.categoria %></p>
+        <h1><%= product.titulo %></h1>
+        <div class="detail-rating">
+          <div class="detail-rating__stars" aria-label="<%= product.estrellas %> de 5">
+            <% for (let i = 1; i <= 5; i++) { %>
+            <i class="<%= i <= Math.round(product.estrellas) ? 'fa-solid' : 'fa-regular' %> fa-star"></i>
+            <% } %>
+          </div>
+          <span class="detail-rating__value"><%= product.estrellas.toFixed(1) %>/5</span>
+        </div>
+        <p class="detail-price" data-price>Precio sugerido: S/ <%= product.precio.toFixed(2) %></p>
+        <div class="detail-meta">
+          <span class="detail-chip detail-chip--category">
+            <i class="fa-solid fa-layer-group"></i>
+            <%= product.categoria %>
+          </span>
+          <span class="detail-chip detail-chip--tag">
+            <i class="fa-solid fa-tag"></i>
+            #<%= product.etiqueta %>
+          </span>
+        </div>
+        <% if (product.descripcion) { %>
+        <p class="detail-description"><%= product.descripcion %></p>
+        <% } %>
+        <div class="detail-actions">
+          <button id="add-to-cart" class="detail-btn detail-btn--primary">
+            <i class="fa-solid fa-cart-plus"></i>
+            Agregar al carrito
+          </button>
+          <a href="/" class="detail-btn detail-btn--ghost">Seguir explorando</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-section">
+      <div class="related-section__header">
+        <p class="related-eyebrow">Te puede interesar</p>
+        <h2>Productos relacionados</h2>
+      </div>
+      <% if (relacionados && relacionados.length) { %>
+      <div class="related-grid">
+        <% relacionados.forEach((item) => { %>
+        <article class="related-card">
+          <a href="/producto/<%= item.id %>" class="related-card__image" aria-label="Detalle de <%= item.titulo %>">
+            <img src="<%= item.imagen %>" alt="<%= item.titulo %>" loading="lazy" />
+          </a>
+          <div class="related-card__body">
+            <p class="related-card__category"><%= item.categoria %></p>
+            <h3><a href="/producto/<%= item.id %>"><%= item.titulo %></a></h3>
+            <p class="related-card__price">S/ <%= item.precio.toFixed(2) %></p>
+          </div>
+        </article>
+        <% }) %>
+      </div>
+      <% } else { %>
+      <p class="related-empty">Por ahora no hay productos relacionados, pero pronto añadiremos más recomendaciones.</p>
+      <% } %>
+    </section>
+    <% } %>
+  </main>
+
+  <footer class="detail-footer">
+    <div class="detail-footer__container">
+      <p>© <span><%= new Date().getFullYear() %></span> Catalogo360</p>
+      <div class="detail-footer__links">
+        <a href="/terminos">Términos</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/contacto">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/detalle.js" defer></script>
+</body>
+
+</html>

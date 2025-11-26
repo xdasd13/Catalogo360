@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marcas - Panel de Administración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+  <div class="flex h-screen">
+    <%- include('../../Layouts/sidebar') %>
+      <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+        <%- include('../../Layouts/navbar') %>
+          <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+            <div class="bg-white rounded-xl shadow-card border border-gray-100 overflow-hidden">
+              <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                  <h2 class="text-lg font-bold text-app-deep">Marcas</h2>
+                  <p class="text-sm text-gray-500">Administra las marcas de productos</p>
+                </div>
+                <a href="/admin/marcas/nuevo"
+                  class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                  <i class='bx bx-plus'></i> Nueva Marca
+                </a>
+              </div>
+
+              <% if (marcas && marcas.length> 0) { %>
+                <div class="table-container">
+                  <table class="w-full text-left custom-table">
+                    <thead>
+                      <tr>
+                        <th class="px-6 py-4">Nombre</th>
+                        <th class="px-6 py-4">Slug</th>
+                        <th class="px-6 py-4">Productos</th>
+                        <th class="px-6 py-4 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                      <% marcas.forEach(marca=> { %>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                          <td class="px-6 py-4 font-medium text-app-deep">
+                            <%= marca.nombre %>
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500"><code
+                              class="bg-gray-100 px-2 py-1 rounded text-xs"><%= marca.slug %></code></td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= marca.producto_count || 0 %>
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                              <a href="/admin/marcas/<%= marca.id %>/editar"
+                                class="text-gray-400 hover:text-app-green transition-colors">
+                                <i class='bx bx-edit-alt text-lg'></i>
+                              </a>
+                              <form method="POST" action="/admin/marcas/<%= marca.id %>?_method=DELETE"
+                                onsubmit="return confirm('¿Estás seguro?');" class="inline">
+                                <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
+                                  <i class='bx bx-trash text-lg'></i>
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+                <% } else { %>
+                  <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-4xl">🏷️
+                    </div>
+                    <h3 class="text-lg font-medium text-app-deep mb-1">No hay marcas aún</h3>
+                    <p class="text-gray-500 mb-6">Comienza creando tu primera marca.</p>
+                    <a href="/admin/marcas/nuevo"
+                      class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Crear Marca
+                    </a>
+                  </div>
+                  <% } %>
+            </div>
+          </main>
+      </div>
+  </div>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

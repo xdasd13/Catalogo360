@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Producto - Panel de Administración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/css/crear.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+    <div class="flex h-screen">
+        <%- include('../../Layouts/sidebar') %>
+            <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+                <%- include('../../Layouts/navbar') %>
+                    <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+                        <div class="form-container">
+                            <div class="form-header">
+                                <h1 class="form-title">Nuevo Producto</h1>
+                                <p class="form-subtitle">Complete los datos para agregar un nuevo producto al catálogo
+                                </p>
+                            </div>
+
+                            <% if (error && error.length> 0) { %>
+                                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                                    <p class="text-red-800 text-sm">
+                                        <%= error %>
+                                    </p>
+                                </div>
+                                <% } %>
+
+                                    <form action="/admin/productos" method="POST" data-validate="true">
+
+                                        <!-- Información Básica -->
+                                        <div class="form-grid form-grid-cols-2">
+                                            <div class="form-group">
+                                                <label class="form-label form-label-required" for="nombre">Nombre del
+                                                    Producto</label>
+                                                <input type="text" id="nombre" name="nombre" class="form-input" required
+                                                    placeholder="Ej: Lámpara LED Moderna">
+                                                <span class="form-help-text">Nombre descriptivo del producto</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="sku">SKU</label>
+                                                <input type="text" id="sku" name="sku" class="form-input"
+                                                    placeholder="Código único del producto">
+                                                <span class="form-help-text">Opcional - Código de referencia
+                                                    interno</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="slug">Slug (URL amigable)</label>
+                                            <input type="text" id="slug" name="slug" class="form-input"
+                                                placeholder="Se genera automáticamente">
+                                            <span class="form-help-text">Se genera automáticamente desde el
+                                                nombre</span>
+                                        </div>
+
+                                        <!-- Descripción Corta CON IA -->
+                                        <div class="form-group">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <label class="form-label form-label-required"
+                                                    for="descripcion_corta">Descripción Corta</label>
+                                                <button type="button" id="btn-generar-corta-ia"
+                                                    class="text-xs px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors flex items-center gap-1">
+                                                    <i class='bx bx-sparkles'></i>
+                                                    Generar con IA
+                                                </button>
+                                            </div>
+                                            <input type="text" id="descripcion_corta" name="descripcion_corta"
+                                                class="form-input" required maxlength="255"
+                                                placeholder="Breve descripción del producto">
+                                            <span class="form-help-text">Máximo 255 caracteres</span>
+                                        </div>
+
+                                        <!-- Descripción Completa CON IA -->
+                                        <div class="form-group">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <label class="form-label" for="descripcion_larga">Descripción
+                                                    Completa</label>
+                                                <div class="flex gap-2">
+                                                    <button type="button" id="btn-generar-completa-ia"
+                                                        class="text-xs px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors flex items-center gap-1">
+                                                        <i class='bx bx-sparkles'></i>
+                                                        Generar con IA
+                                                    </button>
+                                                    <button type="button" id="btn-generar-ambas-ia"
+                                                        class="text-xs px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-colors flex items-center gap-1 font-semibold">
+                                                        <i class='bx bx-magic-wand'></i>
+                                                        Generar Ambas
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <textarea id="descripcion_larga" name="descripcion_larga"
+                                                class="form-textarea" rows="6" maxlength="2000"
+                                                placeholder="Descripción detallada del producto, características, materiales, etc."></textarea>
+                                        </div>
+
+                                        <!-- Precios -->
+                                        <div class="form-grid form-grid-cols-2 border-t border-app-border pt-6 mt-6">
+                                            <div class="form-group">
+                                                <label class="form-label form-label-required" for="precio_base">Precio
+                                                    Base</label>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-app-deep font-medium">S/</span>
+                                                    <input type="number" id="precio_base" name="precio_base"
+                                                        class="form-input" required step="0.01" min="0"
+                                                        placeholder="0.00">
+                                                </div>
+                                                <span class="form-help-text">Precio normal del producto</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="precio_oferta">Precio de Oferta</label>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-app-muted font-medium">S/</span>
+                                                    <input type="number" id="precio_oferta" name="precio_oferta"
+                                                        class="form-input" step="0.01" min="0" placeholder="0.00">
+                                                </div>
+                                                <span class="form-help-text">Opcional - Precio reducido si está en
+                                                    oferta</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Categorización -->
+                                        <div class="border-t border-app-border pt-6 mt-6">
+                                            <h3 class="text-lg font-semibold text-app-deep mb-4">Categorización</h3>
+
+                                            <div class="form-grid form-grid-cols-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="marca_id">Marca</label>
+                                                    <select id="marca_id" name="marca_id" class="form-select">
+                                                        <option value="">Seleccionar marca...</option>
+                                                        <% marcas.forEach(marca=> { %>
+                                                            <option value="<%= marca.id %>">
+                                                                <%= marca.nombre %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                    <span class="form-help-text">Opcional - Marca del producto</span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label" for="categorias">Categorías</label>
+                                                    <select id="categorias" name="categorias" multiple
+                                                        class="form-select" size="4">
+                                                        <% categorias.forEach(cat=> { %>
+                                                            <option value="<%= cat.id %>">
+                                                                <%= cat.nombre %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                    <span class="form-help-text">Mantén Ctrl para seleccionar
+                                                        varias</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mt-4">
+                                                <label class="form-label">Etiquetas</label>
+                                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                                    <% etiquetas.forEach(tag=> { %>
+                                                        <label class="checkbox-label">
+                                                            <input type="checkbox" name="etiquetas"
+                                                                value="<%= tag.id %>" class="form-checkbox">
+                                                            <span>
+                                                                <%= tag.nombre %>
+                                                            </span>
+                                                        </label>
+                                                        <% }); %>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Estado -->
+                                        <div class="border-t border-app-border pt-6 mt-6">
+                                            <h3 class="text-lg font-semibold text-app-deep mb-4">Estado del Producto
+                                            </h3>
+
+                                            <div class="space-y-3">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" name="activo" class="form-checkbox" checked>
+                                                    <span>Producto Activo</span>
+                                                </label>
+
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" name="destacado" class="form-checkbox">
+                                                    <span>Marcar como Destacado</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Acciones -->
+                                        <div class="form-actions">
+                                            <a href="/admin/productos" class="btn btn-secondary">
+                                                <i class='bx bx-x'></i>
+                                                Cancelar
+                                            </a>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class='bx bx-check'></i>
+                                                Crear Producto
+                                            </button>
+                                        </div>
+                                    </form>
+                        </div>
+
+                    </main>
+            </div>
+    </div>
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/crear.js"></script>
+    <script src="/assets/js/ia-producto.js"></script>
+</body>
+
+</html>

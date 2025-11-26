@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Admin' %> - Catálogo 360</title>
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">📦</div>
+          <span>Admin</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- Dashboard -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Principal</div>
+          <ul>
+            <li class="sidebar-item">
+              <a href="/admin" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Catálogo -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Catálogo</div>
+          <ul>
+            <li class="sidebar-item">
+              <a href="/admin/productos" class="sidebar-link">
+                <span class="sidebar-icon">📦</span>
+                <span>Productos</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="/admin/categorias" class="sidebar-link">
+                <span class="sidebar-icon">📂</span>
+                <span>Categorías</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="/admin/marcas" class="sidebar-link">
+                <span class="sidebar-icon">🏷️</span>
+                <span>Marcas</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="/admin/etiquetas" class="sidebar-link">
+                <span class="sidebar-icon">🔖</span>
+                <span>Etiquetas</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Sistema -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Sistema</div>
+          <ul>
+            <li class="sidebar-item">
+              <a href="/logout" class="sidebar-link">
+                <span class="sidebar-icon">🚪</span>
+                <span>Cerrar Sesión</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Header -->
+      <header class="admin-header">
+        <h1 class="admin-header-title"><%= title %></h1>
+        <div class="flex items-center gap-4">
+          <span class="text-app-muted">Bienvenido, <%= user ? user.email : 'Admin' %></span>
+        </div>
+      </header>
+
+      <!-- Flash Messages -->
+      <% if (messages) { %>
+        <% if (messages.message && messages.message.length > 0) { %>
+          <div class="flash-container">
+            <div class="alert alert-success">
+              <span>✓</span>
+              <p><%= messages.message[0] %></p>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (messages.error && messages.error.length > 0) { %>
+          <div class="flash-container">
+            <div class="alert alert-error">
+              <span>✕</span>
+              <p><%= messages.error[0] %></p>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+
+      <!-- Content -->
+      <div class="admin-content">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+
+  <script src="/assets/js/admin.js"></script>
+  <script src="/assets/js/admin-forms.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Categoría - Panel de Administración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/css/crear.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+    <div class="flex h-screen">
+        <%- include('../../Layouts/sidebar') %>
+            <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+                <%- include('../../Layouts/navbar') %>
+                    <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+                        <div class="form-container">
+                            <div class="form-header">
+                                <h1 class="form-title">Nueva Categoría</h1>
+                                <p class="form-subtitle">Complete los datos para crear una nueva categoría de productos
+                                </p>
+                            </div>
+
+                            <% if (error && error.length> 0) { %>
+                                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                                    <p class="text-red-800 text-sm">
+                                        <%= error %>
+                                    </p>
+                                </div>
+                                <% } %>
+
+                                    <form action="/admin/categorias" method="POST" data-validate="true">
+
+                                        <div class="form-grid form-grid-cols-2">
+                                            <div class="form-group">
+                                                <label class="form-label form-label-required" for="nombre">Nombre de la
+                                                    Categoría</label>
+                                                <input type="text" id="nombre" name="nombre" class="form-input" required
+                                                    placeholder="Ej: Iluminación">
+                                                <span class="form-help-text">Nombre descriptivo de la categoría</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="slug">Slug (URL amigable)</label>
+                                                <input type="text" id="slug" name="slug" class="form-input"
+                                                    placeholder="Se genera automáticamente">
+                                                <span class="form-help-text">Se genera desde el nombre</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="descripcion">Descripción</label>
+                                            <textarea id="descripcion" name="descripcion" class="form-textarea" rows="4"
+                                                maxlength="500" placeholder="Descripción de la categoría..."></textarea>
+                                        </div>
+
+                                        <div class="form-grid form-grid-cols-2">
+                                            <div class="form-group">
+                                                <label class="form-label" for="categoria_padre_id">Categoría
+                                                    Padre</label>
+                                                <select id="categoria_padre_id" name="categoria_padre_id"
+                                                    class="form-select">
+                                                    <option value="">Sin categoría padre (principal)</option>
+                                                    <% categoriasPadre.forEach(cat=> { %>
+                                                        <option value="<%= cat.id %>">
+                                                            <%= cat.nombre %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                                <span class="form-help-text">Opcional - Para crear subcategorías</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="orden">Orden de visualización</label>
+                                                <input type="number" id="orden" name="orden" class="form-input"
+                                                    value="0" min="0" placeholder="0">
+                                                <span class="form-help-text">Número de orden (menor = primero)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="border-t border-app-border pt-6 mt-6">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="activo" class="form-checkbox" checked>
+                                                <span>Categoría Activa</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-actions">
+                                            <a href="/admin/categorias" class="btn btn-secondary">
+                                                <i class='bx bx-x'></i>
+                                                Cancelar
+                                            </a>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class='bx bx-check'></i>
+                                                Crear Categoría
+                                            </button>
+                                        </div>
+                                    </form>
+                        </div>
+
+                    </main>
+            </div>
+    </div>
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/crear.js"></script>
+</body>
+
+</html>

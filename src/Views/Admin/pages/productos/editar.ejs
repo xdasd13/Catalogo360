@@ -1,0 +1,135 @@
+<div class="bg-white rounded-lg shadow p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Editar Producto</h1>
+        <p class="text-gray-600 text-sm mt-1">Actualiza la información del producto</p>
+    </div>
+
+    <% if (error && error.length > 0) { %>
+        <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p class="text-red-800 text-sm"><%= error %></p>
+        </div>
+    <% } %>
+
+    <form action="/admin/productos/<%= producto.id %>?_method=PUT" method="POST" class="space-y-6">
+        <!-- Información Básica -->
+        <div class="border-t pt-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Información Básica</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Producto *</label>
+                    <input type="text" name="nombre" value="<%= producto.nombre %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Lámpara LED Moderna">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">SKU (Opcional)</label>
+                    <input type="text" name="sku" value="<%= producto.sku || '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Código único">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Slug</label>
+                <input type="text" name="slug" value="<%= producto.slug %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Descripción Corta *</label>
+                <input type="text" name="descripcion_corta" value="<%= producto.descripcion_corta || '' %>" required maxlength="255" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Breve descripción del producto">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Descripción Larga</label>
+                <textarea name="descripcion_larga" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"><%= producto.descripcion_larga || '' %></textarea>
+            </div>
+        </div>
+
+        <!-- Precios -->
+        <div class="border-t pt-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Precios</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Precio Base *</label>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">S/</span>
+                        <input type="number" name="precio_base" value="<%= producto.precio_base %>" required step="0.01" min="0" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Precio Oferta (Opcional)</label>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">S/</span>
+                        <input type="number" name="precio_oferta" value="<%= producto.precio_oferta || '' %>" step="0.01" min="0" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categorización -->
+        <div class="border-t pt-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Categorización</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Marca</label>
+                    <select name="marca_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Seleccionar marca...</option>
+                        <% marcas.forEach(marca => { %>
+                            <option value="<%= marca.id %>" <%= marca.id === producto.marca_id ? 'selected' : '' %>><%= marca.nombre %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Categorías</label>
+                    <select name="categorias" multiple class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" size="4">
+                        <% categorias.forEach(cat => { 
+                            const isSelected = productoCategorias.some(pc => pc.id === cat.id);
+                        %>
+                            <option value="<%= cat.id %>" <%= isSelected ? 'selected' : '' %>><%= cat.nombre %></option>
+                        <% }); %>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Usa Ctrl+Click para seleccionar múltiples</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Etiquetas</label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <% etiquetas.forEach(tag => {
+                        const isChecked = productoEtiquetas.some(pe => pe.id === tag.id);
+                    %>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="etiquetas" value="<%= tag.id %>" <%= isChecked ? 'checked' : '' %> class="rounded border-gray-300">
+                            <span class="ml-2 text-sm text-gray-700"><%= tag.nombre %></span>
+                        </label>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="border-t pt-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Estado</h2>
+            
+            <div class="space-y-3">
+                <label class="flex items-center">
+                    <input type="checkbox" name="activo" <%= producto.activo ? 'checked' : '' %> class="rounded border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">Producto Activo</span>
+                </label>
+
+                <label class="flex items-center">
+                    <input type="checkbox" name="destacado" <%= producto.destacado ? 'checked' : '' %> class="rounded border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">Marcar como Destacado</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="border-t pt-6 flex gap-3 justify-end">
+            <a href="/admin/productos" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Cancelar</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Actualizar Producto</button>
+        </div>
+    </form>
+</div>

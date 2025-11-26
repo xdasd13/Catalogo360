@@ -1,0 +1,67 @@
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-semibold text-gray-900">Gestión de Productos</h2>
+    <a href="/admin/productos/nuevo" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors">
+        <iconify-icon icon="solar:add-circle-bold" width="18"></iconify-icon>
+        Nuevo Producto
+    </a>
+</div>
+
+<!-- Filtros -->
+<div class="bg-white rounded-lg shadow p-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <input type="text" placeholder="Buscar por nombre..." class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <option value="">Todas las categorías</option>
+        </select>
+        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <option value="">Estado</option>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+        </select>
+        <button class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">Filtrar</button>
+    </div>
+</div>
+
+<!-- Tabla -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nombre</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Categoría</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Precio</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Stock</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Estado</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-gray-900">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 text-sm text-gray-900">Lámpara Origami Nórdica</td>
+                <td class="px-6 py-4 text-sm text-gray-600">Decoración</td>
+                <td class="px-6 py-4 text-sm font-semibold text-gray-900">S/ 180.00</td>
+                <td class="px-6 py-4">
+                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded">50</span>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Activo</span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <div class="flex justify-end gap-2">
+                        <a href="/admin/productos/1/editar" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Editar</a>
+                        <button class="text-red-600 hover:text-red-800 text-sm font-medium">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginación -->
+<div class="mt-6 flex justify-between items-center">
+    <p class="text-sm text-gray-600">Mostrando 1-10 de 150 productos</p>
+    <div class="flex gap-2">
+        <button class="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">← Anterior</button>
+        <button class="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">Siguiente →</button>
+    </div>
+</div>

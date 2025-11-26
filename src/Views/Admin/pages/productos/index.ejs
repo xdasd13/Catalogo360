@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Panel de Administración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+
+<body class="bg-app-gray font-sans antialiased overflow-hidden">
+  <div class="flex h-screen">
+    <%- include('../../Layouts/sidebar') %>
+      <div id="mainContent" class="flex-1 flex flex-col min-w-0">
+        <%- include('../../Layouts/navbar') %>
+          <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
+
+            <div class="bg-white rounded-xl shadow-card border border-gray-100 overflow-hidden">
+              <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                  <h2 class="text-lg font-bold text-app-deep">Productos</h2>
+                  <p class="text-sm text-gray-500">Administra el catálogo de productos</p>
+                </div>
+                <a href="/admin/productos/nuevo"
+                  class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                  <i class='bx bx-plus'></i> Nuevo Producto
+                </a>
+              </div>
+
+              <% if (productos && productos.length> 0) { %>
+                <div class="table-container">
+                  <table class="w-full text-left custom-table">
+                    <thead>
+                      <tr>
+                        <th class="px-6 py-4">Nombre</th>
+                        <th class="px-6 py-4">SKU</th>
+                        <th class="px-6 py-4">Precio Base</th>
+                        <th class="px-6 py-4">Marca</th>
+                        <th class="px-6 py-4">Estado</th>
+                        <th class="px-6 py-4 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                      <% productos.forEach(producto=> { %>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                          <td class="px-6 py-4 font-medium text-app-deep">
+                            <%= producto.nombre %>
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= producto.sku || '-' %>
+                          </td>
+                          <td class="px-6 py-4 font-medium">S/ <%= parseFloat(producto.precio_base).toFixed(2) %>
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= producto.marca_nombre || '-' %>
+                          </td>
+                          <td class="px-6 py-4">
+                            <% if (producto.activo) { %>
+                              <span
+                                class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">Activo</span>
+                              <% } else { %>
+                                <span
+                                  class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">Inactivo</span>
+                                <% } %>
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                              <a href="/admin/productos/<%= producto.id %>/editar"
+                                class="text-gray-400 hover:text-app-green transition-colors">
+                                <i class='bx bx-edit-alt text-lg'></i>
+                              </a>
+                              <form method="POST" action="/admin/productos/<%= producto.id %>?_method=DELETE"
+                                onsubmit="return confirm('¿Estás seguro?');" class="inline">
+                                <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
+                                  <i class='bx bx-trash text-lg'></i>
+                                </button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+                <% } else { %>
+                  <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-4xl">📦
+                    </div>
+                    <h3 class="text-lg font-medium text-app-deep mb-1">No hay productos aún</h3>
+                    <p class="text-gray-500 mb-6">Comienza creando tu primer producto para el catálogo.</p>
+                    <a href="/admin/productos/nuevo"
+                      class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Crear Producto
+                    </a>
+                  </div>
+                  <% } %>
+            </div>
+          </main>
+      </div>
+  </div>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

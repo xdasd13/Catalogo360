@@ -1,0 +1,35 @@
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-semibold text-gray-900">Gestión de Marcas</h2>
+    <a href="/admin/marcas/nuevo" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors">
+        <iconify-icon icon="solar:add-circle-bold" width="18"></iconify-icon>
+        Nueva Marca
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nombre</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Logo</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Productos</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Estado</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-gray-900">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 text-sm text-gray-900">Premium Brand</td>
+                <td class="px-6 py-4 text-sm">-</td>
+                <td class="px-6 py-4 text-sm text-gray-600">5</td>
+                <td class="px-6 py-4">
+                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Activo</span>
+                </td>
+                <td class="px-6 py-4 text-right gap-2 flex justify-end">
+                    <a href="/admin/marcas/1/editar" class="text-blue-600 hover:text-blue-800 text-sm">Editar</a>
+                    <button class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

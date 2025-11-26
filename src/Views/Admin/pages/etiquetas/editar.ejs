@@ -1,0 +1,50 @@
+<div class="bg-white rounded-lg shadow p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Editar Etiqueta</h1>
+        <p class="text-gray-600 text-sm mt-1">Actualiza la información de la etiqueta</p>
+    </div>
+
+    <% if (error && error.length > 0) { %>
+        <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p class="text-red-800 text-sm"><%= error %></p>
+        </div>
+    <% } %>
+
+    <form action="/admin/etiquetas/<%= etiqueta.id %>?_method=PUT" method="POST" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Nombre *</label>
+                <input type="text" name="nombre" value="<%= etiqueta.nombre %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Slug</label>
+                <input type="text" name="slug" value="<%= etiqueta.slug %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+            <textarea name="descripcion" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"><%= etiqueta.descripcion || '' %></textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+            <div class="flex items-center gap-4">
+                <input type="color" name="color" value="<%= etiqueta.color || '#3b82f6' %>" class="w-16 h-10 border border-gray-300 rounded-lg cursor-pointer">
+                <div id="colorPreview" class="w-24 h-10 rounded-lg border border-gray-300" style="background-color: <%= etiqueta.color || '#3b82f6' %>"></div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 justify-end">
+            <a href="/admin/etiquetas" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Cancelar</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Actualizar Etiqueta</button>
+        </div>
+    </form>
+
+    <script>
+        document.querySelector('input[name="color"]').addEventListener('change', (e) => {
+            document.getElementById('colorPreview').style.backgroundColor = e.target.value;
+        });
+    </script>
+</div>

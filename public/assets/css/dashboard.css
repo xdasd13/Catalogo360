@@ -1,0 +1,157 @@
+:root {
+  --app-gray: #f2f2f2;
+  --app-deep: #1a2b2a;
+  --app-dark: #0a0c0d;
+  --app-green: #348e91;
+  --app-green-dark: #2b6f72;
+  --app-muted: #1c5052;
+  --app-card: #ffffff;
+  --app-border: rgba(28, 80, 82, 0.15);
+  --shadow-lg: 0 25px 50px -12px rgba(28, 80, 82, 0.25);
+}
+
+/* Base Styles */
+body {
+  background-color: var(--app-gray);
+  font-family: "Inter", sans-serif; /* Assuming Inter or system font */
+  color: var(--app-dark);
+}
+
+/* Color Utilities */
+.bg-app-gray {
+  background-color: var(--app-gray);
+}
+.bg-app-deep {
+  background-color: var(--app-deep);
+}
+.bg-app-dark {
+  background-color: var(--app-dark);
+}
+.bg-app-green {
+  background-color: var(--app-green);
+}
+.bg-app-green-dark {
+  background-color: var(--app-green-dark);
+}
+.bg-app-muted {
+  background-color: var(--app-muted);
+}
+.bg-app-card {
+  background-color: var(--app-card);
+}
+
+.text-app-deep {
+  color: var(--app-deep);
+}
+.text-app-green {
+  color: var(--app-green);
+}
+.text-app-muted {
+  color: var(--app-muted);
+}
+.text-app-dark {
+  color: var(--app-dark);
+}
+
+.border-app-border {
+  border-color: var(--app-border);
+}
+
+/* Custom Shadows */
+.shadow-custom {
+  box-shadow: var(--shadow-lg);
+}
+.shadow-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Sidebar Transitions */
+.sidebar {
+  transition: width 0.3s ease-in-out;
+  width: 260px;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar .logo-text {
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar .menu-text {
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .menu-text {
+  opacity: 0;
+  width: 0;
+  display: none;
+}
+
+.sidebar.collapsed .menu-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+}
+
+.custom-table th {
+  background-color: rgba(52, 142, 145, 0.05);
+  color: var(--app-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.custom-table td {
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-deep);
+}
+
+.custom-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover Effects */
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+.hover-scale:hover {
+  transform: translateY(-2px);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--app-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-green);
+}
