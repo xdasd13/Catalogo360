@@ -21,90 +21,142 @@
                         <div class="bg-white rounded-xl shadow-card border border-gray-100 overflow-hidden">
                             <div class="p-6 border-b border-gray-100 flex items-center justify-between">
                                 <div>
-                                    <h2 class="text-lg font-bold text-app-deep">Gestión de Usuarios</h2>
-                                    <p class="text-sm text-gray-500">Administra los usuarios del sistema</p>
+                                    <h2 class="text-lg font-bold text-app-deep">Usuarios</h2>
+                                    <p class="text-sm text-gray-500">Gestión de usuarios y roles</p>
                                 </div>
                                 <a href="/admin/usuarios/nuevo"
                                     class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
-                                    <i class='bx bx-plus'></i> Nuevo Usuario
+                                    <i class='bx bx-user-plus'></i> Nuevo Usuario
                                 </a>
                             </div>
 
-                            <div class="table-container">
-                                <table class="w-full text-left custom-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-6 py-4">Email</th>
-                                            <th class="px-6 py-4">Nombre</th>
-                                            <th class="px-6 py-4">Rol</th>
-                                            <th class="px-6 py-4">Estado</th>
-                                            <th class="px-6 py-4">Última visita</th>
-                                            <th class="px-6 py-4 text-right">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-100">
-                                        <% if (typeof usuarios !=='undefined' && usuarios.length> 0) { %>
-                                            <% usuarios.forEach(usuario=> { %>
-                                                <tr class="hover:bg-gray-50 transition-colors">
-                                                    <td class="px-6 py-4 font-medium text-app-deep">
-                                                        <%= usuario.email %>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-sm text-gray-500">
-                                                        <%= usuario.nombre || '-' %>
-                                                    </td>
-                                                    <td class="px-6 py-4"><span
-                                                            class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
-                                                            <%= usuario.rol || 'user' %>
-                                                        </span></td>
-                                                    <td class="px-6 py-4"><span
-                                                            class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Activo</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-sm text-gray-500">
-                                                        <%= usuario.ultimo_acceso || '-' %>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-right">
-                                                        <div class="flex items-center justify-end gap-2">
-                                                            <a href="/admin/usuarios/<%= usuario.id %>/editar"
-                                                                class="text-gray-400 hover:text-app-green transition-colors">
-                                                                <i class='bx bx-edit-alt text-lg'></i>
-                                                            </a>
-                                                            <button
-                                                                class="text-gray-400 hover:text-red-500 transition-colors">
-                                                                <i class='bx bx-trash text-lg'></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        <tr class="hover:bg-gray-50 transition-colors">
-                                                            <td class="px-6 py-4 font-medium text-app-deep">
-                                                                admin@ejemplo.com</td>
-                                                            <td class="px-6 py-4 text-sm text-gray-500">Juan Admin</td>
-                                                            <td class="px-6 py-4"><span
-                                                                    class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">admin</span>
-                                                            </td>
-                                                            <td class="px-6 py-4"><span
-                                                                    class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Activo</span>
-                                                            </td>
-                                                            <td class="px-6 py-4 text-sm text-gray-500">Hace 2 horas
-                                                            </td>
-                                                            <td class="px-6 py-4 text-right">
-                                                                <div class="flex items-center justify-end gap-2">
-                                                                    <a href="#"
-                                                                        class="text-gray-400 hover:text-app-green transition-colors"><i
-                                                                            class='bx bx-edit-alt text-lg'></i></a>
-                                                                    <button
-                                                                        class="text-gray-400 hover:text-red-500 transition-colors"><i
-                                                                            class='bx bx-trash text-lg'></i></button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <% if (message && message.length> 0) { %>
+                                <div class="p-4 bg-green-50 border-b border-green-100 text-green-700 text-sm">
+                                    <%= message %>
+                                </div>
+                                <% } %>
+
+                                    <% if (error && error.length> 0) { %>
+                                        <div class="p-4 bg-red-50 border-b border-red-100 text-red-700 text-sm">
+                                            <%= error %>
+                                        </div>
+                                        <% } %>
+
+                                            <% if (usuarios && usuarios.length> 0) { %>
+                                                <div class="table-container">
+                                                    <table class="w-full text-left custom-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="px-6 py-4">Usuario</th>
+                                                                <th class="px-6 py-4">Rol</th>
+                                                                <th class="px-6 py-4">Estado</th>
+                                                                <th class="px-6 py-4">Registro</th>
+                                                                <th class="px-6 py-4 text-right">Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="divide-y divide-gray-100">
+                                                            <% usuarios.forEach(usuario=> { %>
+                                                                <tr class="hover:bg-gray-50 transition-colors">
+                                                                    <td class="px-6 py-4">
+                                                                        <div class="flex items-center gap-3">
+                                                                            <div
+                                                                                class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-lg overflow-hidden">
+                                                                                <% if (usuario.foto_perfil) { %>
+                                                                                    <img src="<%= usuario.foto_perfil %>"
+                                                                                        alt="<%= usuario.nombre %>"
+                                                                                        class="w-full h-full object-cover">
+                                                                                    <% } else { %>
+                                                                                        <%= usuario.nombre.charAt(0).toUpperCase()
+                                                                                            %>
+                                                                                            <% } %>
+                                                                            </div>
+                                                                            <div>
+                                                                                <div class="font-medium text-app-deep">
+                                                                                    <%= usuario.nombre %>
+                                                                                        <%= usuario.apellido || '' %>
+                                                                                </div>
+                                                                                <div class="text-xs text-gray-500">
+                                                                                    <%= usuario.email %>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="px-6 py-4">
+                                                                        <% if (usuario.roles) { %>
+                                                                            <% usuario.roles.split(',').forEach(rol=> {
+                                                                                %>
+                                                                                <span
+                                                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-1">
+                                                                                    <%= rol %>
+                                                                                </span>
+                                                                                <% }); %>
+                                                                                    <% } else { %>
+                                                                                        <span
+                                                                                            class="text-gray-400 text-sm italic">Sin
+                                                                                            rol</span>
+                                                                                        <% } %>
+                                                                    </td>
+                                                                    <td class="px-6 py-4">
+                                                                        <% if (usuario.activo) { %>
+                                                                            <span
+                                                                                class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">Activo</span>
+                                                                            <% } else { %>
+                                                                                <span
+                                                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">Inactivo</span>
+                                                                                <% } %>
+                                                                    </td>
+                                                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                                                        <%= new
+                                                                            Date(usuario.creado_en).toLocaleDateString()
+                                                                            %>
+                                                                    </td>
+                                                                    <td class="px-6 py-4 text-right">
+                                                                        <div
+                                                                            class="flex items-center justify-end gap-2">
+                                                                            <a href="/admin/usuarios/<%= usuario.id %>/editar"
+                                                                                class="text-gray-400 hover:text-app-green transition-colors"
+                                                                                title="Editar">
+                                                                                <i class='bx bx-edit-alt text-lg'></i>
+                                                                            </a>
+
+                                                                            <% if (usuario.activo) { %>
+                                                                                <form method="POST"
+                                                                                    action="/admin/usuarios/<%= usuario.id %>?_method=DELETE"
+                                                                                    onsubmit="return confirm('¿Estás seguro de desactivar este usuario?');"
+                                                                                    class="inline">
+                                                                                    <button type="submit"
+                                                                                        class="text-gray-400 hover:text-red-500 transition-colors"
+                                                                                        title="Desactivar">
+                                                                                        <i
+                                                                                            class='bx bx-block text-lg'></i>
+                                                                                    </button>
+                                                                                </form>
+                                                                                <% } %>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <% }); %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <% } else { %>
+                                                    <div
+                                                        class="flex flex-col items-center justify-center py-12 text-center">
+                                                        <div
+                                                            class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-4xl">
+                                                            👥</div>
+                                                        <h3 class="text-lg font-medium text-app-deep mb-1">No hay
+                                                            usuarios registrados</h3>
+                                                        <p class="text-gray-500 mb-6">Comienza creando el primer usuario
+                                                            del sistema.</p>
+                                                        <a href="/admin/usuarios/nuevo"
+                                                            class="bg-app-green hover:bg-app-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                                            Crear Usuario
+                                                        </a>
+                                                    </div>
+                                                    <% } %>
                         </div>
+
                     </main>
             </div>
     </div>

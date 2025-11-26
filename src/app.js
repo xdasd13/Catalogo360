@@ -10,6 +10,7 @@ const adminRoutes = require("./admin/routes");
 const flash = require("connect-flash");
 const session = require("express-session");
 const path = require("path");
+const methodOverride = require("method-override");
 const app = express();
 const iaRoutes = require("./admin/routes/ia.routes");
 
@@ -17,6 +18,9 @@ app.set("trust proxy", true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Method Override - permite usar PUT/DELETE en formularios
+app.use(methodOverride("_method"));
 
 // Flash Messages
 app.use(
